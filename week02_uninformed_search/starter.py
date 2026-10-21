@@ -98,20 +98,43 @@ def bfs(start, goal):
     """
     Breadth-First Search
 
-    TODO:
-
     1. Create a queue,
     2. Create a visited set,
     3. Explore states,
     4. Return path when goal is found.
 
-    Hint:
-        Use deque()
+    Uses:
+        Queue (FIFO)
     """
 
-    # remove pass for your solution. This is only here to 
-    # make sure that there are no errors displayed.
-    pass
+    queue = deque([
+        (start, [start])
+    ])
+
+    visited = {
+        start
+    }
+
+    while queue:
+
+        current, path = queue.popleft()
+
+        if current == goal:
+            return path
+
+        for neighbour in get_neighbours(current):
+
+            if neighbour not in visited:
+
+                visited.add(neighbour)
+
+                new_path = path + [neighbour]
+
+                queue.append(
+                    (neighbour, new_path)
+                )
+
+    return []
 
 
 # --------------------------------------------------
@@ -122,20 +145,43 @@ def dfs(start, goal):
     """
     Depth-First Search
 
-    TODO:
-
     1. Create a stack,
     2. Create a visited set,
     3. Explore states,
     4. Return path when goal is found.
 
-    Hint:
-        A Python list can be used as a stack
+    Uses:
+        Stack (Python list)
     """
-    
-    # remove pass for your solution. This is only here to 
-    # make sure that there are no errors displayed.
-    pass
+
+    stack = [
+        (start, [start])
+    ]
+
+    visited = {
+        start
+    }
+
+    while stack:
+
+        current, path = stack.pop()
+
+        if current == goal:
+            return path
+
+        for neighbour in get_neighbours(current):
+
+            if neighbour not in visited:
+
+                visited.add(neighbour)
+
+                new_path = path + [neighbour]
+
+                stack.append(
+                    (neighbour, new_path)
+                )
+
+    return []
 
 
 # --------------------------------------------------
@@ -169,6 +215,26 @@ dfs_path = dfs(START_STATE, GOAL_STATE)
 
 print("DFS Path:")
 print(dfs_path)
+
+
+# --------------------------------------------------
+# TASK 3 - COMPARE PATHS
+# --------------------------------------------------
+
+print("\nBFS Path Length:")
+print(len(bfs_path) - 1)
+
+print("\nDFS Path Length:")
+print(len(dfs_path) - 1)
+
+if len(bfs_path) < len(dfs_path):
+    print("\nBFS found a shorter path.")
+
+elif len(dfs_path) < len(bfs_path):
+    print("\nDFS found a shorter path.")
+
+else:
+    print("\nBoth algorithms found paths of equal length.")
 
 
 # --------------------------------------------------
